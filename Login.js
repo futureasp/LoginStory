@@ -73,15 +73,13 @@ class LoginStory extends Story{
     }
     Then(message){
         super.Then(message); 
-        this.expected=message.substring(message.indexOf("[")+1,message.indexOf("]"));        
-        let driver= new webdriver.Builder().forBrowser("chrome").build();
-        
+        this.expected=message.substring(message.indexOf("[")+1,message.indexOf("]"));                
+        let driver= new webdriver.Builder().forBrowser("chrome").build();        
         const login_url='https://everdoc.github.io/hellojs/quize/login.html';
         driver.get(login_url);
-        driver.wait(webdriver.until.titleIs("Login Quize"), 1000*30)
-        .then((success)=>{
-            console.log("Enter:",this.username);
-            console.log("Enter:",this.password);
+        //driver.wait(webdriver.until.titleIs("Login Quize"), 1000*30)
+        driver.wait(webdriver.until.urlIs(login_url),1000*30)
+        .then((success)=>{            
             driver.findElement(webdriver.By.id('name')).sendKeys(this.username);
             driver.findElement(webdriver.By.id('password')).sendKeys(this.password);
             
@@ -91,6 +89,8 @@ class LoginStory extends Story{
             
             driver.findElement(webdriver.By.id('result')).getText().then((message)=>{
                 this.actual=message;
+                console.log("Username:",this.username);
+                console.log("Password:",this.password);
                 console.log("Expected:",this.expected);
                 console.log("Actual:", this.actual);
                 let isPass=new RegExp(this.expected,'i').test(this.actual);
