@@ -64,24 +64,18 @@ class LoginStory extends Story{
     }
     When(message){
         super.When(message);
-        const str=message.match(/\[(.+?)\]/g);
-        if(/enter user name/i.test(message)){
-            const name=str.substr(1,message.length-2);
-
-            this.username=name;
+        if(/enter user name/i.test(message)){            
+            this.username=message.substring(message.indexOf("[")+1,message.indexOf("]"));  
         }
         if(/enter password/i.test(message)){
-            const psw=str.substr(1,message.length-2);
-
-            this.username=psw;
+            this.password=message.substring(message.indexOf("[")+1,message.indexOf("]"));           
         }
     }
     Then(message){
         super.Then(message); 
-              
-        this.expect=(message.match(/\[(.+?)\]/g)).substr(1,message.length-2);
+        this.expected=message.substring(message.indexOf("[")+1,message.indexOf("]"));        
         let driver= new webdriver.Builder().forBrowser("chrome").build();
-        //const login_url='https://everdoc.github.io/hellojs/login.html';
+        
         const login_url='https://everdoc.github.io/hellojs/quize/login.html';
         driver.get(login_url);
         driver.wait(webdriver.until.titleIs("Login Quize"), 1000*30)
@@ -94,7 +88,7 @@ class LoginStory extends Story{
             driver.wait(driver,1000*20);
             
             driver.findElement(webdriver.By.tagName('button')).click();
-            //driver.wait(1000*20);
+            
             driver.findElement(webdriver.By.id('result')).getText().then((message)=>{
                 this.actual=message;
                 console.log("Expected:",this.expected);
