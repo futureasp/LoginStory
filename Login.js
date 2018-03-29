@@ -1,3 +1,4 @@
+//import webdriver from "selenium-webdriver"
 const webdriver = require("selenium-webdriver");
 let given="Given: open login page";
 let whenUser="When: enter user name [admin]";
@@ -83,7 +84,7 @@ class LoginStory extends Story{
             driver.findElement(webdriver.By.id('name')).sendKeys(this.username);
             driver.findElement(webdriver.By.id('password')).sendKeys(this.password);
             
-            driver.wait(driver,1000*20);
+            //driver.wait(driver,1000*20);
             
             driver.findElement(webdriver.By.tagName('button')).click();
             
